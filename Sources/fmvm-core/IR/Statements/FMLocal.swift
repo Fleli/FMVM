@@ -1,6 +1,10 @@
 
-/// Represents a local variable
-public struct FMLocal: CustomStringConvertible {
+/// Represents a local variable declaration.
+public struct FMLocal: FMStatement {
+    
+    
+    // MARK: Fields
+    
     
     /// The name of the variable.
     public let name: String
@@ -11,6 +15,10 @@ public struct FMLocal: CustomStringConvertible {
     /// The value of the local variable.
     public let rhs: FMExpression
     
+    
+    // MARK: Initializer
+    
+    
     /// Initialize a new local variable with name and type.
     public init(_ name: String, _ type: FMType, _ rhs: FMExpression) {
         self.name = name
@@ -18,9 +26,13 @@ public struct FMLocal: CustomStringConvertible {
         self.rhs = rhs
     }
     
-    /// A readable description of the declaration
-    public var description: String {
-        return "declare " + name + ": " + type.description + " = " + rhs.description
+    
+    // MARK: Protocol Conformance
+    
+    
+    public func emit() -> String {
+        return "local " + name + ": " + type.emit() + " = " + rhs.emit()
     }
+    
     
 }

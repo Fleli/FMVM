@@ -1,6 +1,10 @@
 
 /// An RValue expression.
-public indirect enum FMExpression: CustomStringConvertible {
+public indirect enum FMExpression: FMVMEmittable {
+    
+    
+    // MARK: Cases
+    
     
     /// An atomic ("simple") expression
     case atomic(expression: FMAtomicExpression)
@@ -24,25 +28,28 @@ public indirect enum FMExpression: CustomStringConvertible {
     /// Part of the call is passing an atomic expression as argument. For multi-parameter functions, this argument needs to be a local tuple variable.
     case call(function: String, argument: FMAtomicExpression)
     
-    /// A description of the expression.
-    public var description: String {
+    
+    // MARK: Protocol Conformance
+    
+    
+    public func emit() -> String {
         
         switch self {
             
         case .atomic(let expression):
-            return "atomic " + expression.description
+            return "atomic " + expression.emit()
             
         case .math(let operation, let arg1, let arg2):
-            return "math " + operation.description + " " + arg1.description + ", " + arg2.description
+            return "math " + operation.emit() + " " + arg1.emit() + ", " + arg2.emit()
         
         case .load(let pointer):
-            return "load " + pointer.description
+            return "load " + pointer.emit()
             
         case .memberPtr(let src, let typ, let mem):
-            return "memberPtr " + src.description + ", " + mem + " of " + typ.description
+            return "memberPtr " + src.emit() + ", " + mem + " of " + typ.description
             
         case .call(let function, let argument):
-            return "call " + function + " arg " + argument.description
+            return "call " + function + " arg " + argument.emit()
             
         }
         

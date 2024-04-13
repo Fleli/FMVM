@@ -1,5 +1,5 @@
 
-public enum FMStatement {
+public protocol FMStatement: FMVMEmittable {
     
     
     

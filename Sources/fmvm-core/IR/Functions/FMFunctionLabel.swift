@@ -9,7 +9,7 @@ public class FMFunctionLabel: Hashable, Equatable {
     public let name: String
     
     /// The label's list of statements.
-    public private(set) var statements: [FMStatement]
+    public private(set) var statements: [any FMStatement]
     
     
     // MARK: Initializer
@@ -29,7 +29,7 @@ public class FMFunctionLabel: Hashable, Equatable {
     // MARK: Mutating Methods
     
     
-    public func add(_ statements: FMStatement ...) {
+    public func add(_ statements: (any FMStatement) ...) {
         self.statements += statements
     }
     

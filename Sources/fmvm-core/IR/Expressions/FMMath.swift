@@ -1,6 +1,6 @@
 
 /// Represents a mathematical operation on the RHS of a declaration.
-public enum FMMath: CustomStringConvertible {
+public enum FMMath: FMVMEmittable {
     
     /// Addition
     case add
@@ -20,7 +20,7 @@ public enum FMMath: CustomStringConvertible {
     // ...
     
     /// A human-readable description of the mathematical operation
-    public var description: String {
+    public func emit() -> String {
         
         switch self {
             

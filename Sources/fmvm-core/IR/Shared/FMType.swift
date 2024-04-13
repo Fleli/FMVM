@@ -1,6 +1,7 @@
 
 /// Represents any type in an FMVM program.
-public indirect enum FMType: CustomStringConvertible, Equatable {
+/// Conforms to `CustomStringConvertible` so that `[FMType]`'s descriptions produce lists `[a1, ..., an]` where `ai` is `a.emit()`
+public indirect enum FMType: FMVMEmittable, CustomStringConvertible, Equatable {
     
     
     public typealias TupleType = [String : FMType]
@@ -33,8 +34,13 @@ public indirect enum FMType: CustomStringConvertible, Equatable {
     
     // MARK: Protocol Conformance
     
-    /// A readable description of the type.
+    
     public var description: String {
+        return emit()
+    }
+    
+    
+    public func emit() -> String {
         
         if isVoid {
             return "void"
@@ -45,16 +51,16 @@ public indirect enum FMType: CustomStringConvertible, Equatable {
         case .int16:
             return "int16"
         case .pointer(let wrapped):
-            return wrapped.description + "*"
+            return wrapped.emit() + "*"
         case .tuple(let types):
             return types.description
         case .function(let p, let q):
-            return p.description + "->" + q.description
+            return p.emit() + "->" + q.emit()
         }
         
     }
     
-    /// Check if two `FMType` instances are equivalent
+    
     public static func == (lhs: FMType, rhs: FMType) -> Bool {
         
         switch (lhs, rhs) {
