@@ -1,6 +1,6 @@
 
 /// An RValue expression.
-public indirect enum FMExpression {
+public indirect enum FMExpression: CustomStringConvertible {
     
     /// A literal integer
     case integer(value: Int)
@@ -9,5 +9,20 @@ public indirect enum FMExpression {
     case local(variable: FMLocal)
     
     // ...
+    
+    
+    /// A description of the expression.
+    public var description: String {
+        
+        switch self {
+            
+        case .integer(let value):
+            return value.description
+        case .local(let variable):
+            return variable.description
+        }
+        
+    }
+    
     
 }

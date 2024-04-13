@@ -17,7 +17,7 @@ public class FMFunction {
     
     /// The function's attribute list. This includes attributes guaranteed (forced) by the user (compiler), and attributes inferred by the FMVM optimization engine.
     /// Attributes guaranteed (forced) by the compiler will be assumed to hold, even if they actually don't.
-    public var attrbutes: Set<FMFunctionAttribute>
+    public var attributes: Set<FMFunctionAttribute>
     
     /// Initialize a function with a name, parameter type and return type.
     /// The attribute list is initialized to be empty.
@@ -30,7 +30,7 @@ public class FMFunction {
         self.returnType = returnType
         
         self.labels = []
-        self.attrbutes = []
+        self.attributes = []
         
     }
     

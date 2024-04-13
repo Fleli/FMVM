@@ -20,7 +20,7 @@ public struct FMLocal: CustomStringConvertible {
     
     /// A readable description of the declaration
     public var description: String {
-        return "declare " + name + ": " + type.description
+        return "declare " + name + ": " + type.description + " = " + rhs.description
     }
     
 }
