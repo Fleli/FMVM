@@ -17,6 +17,12 @@ public enum FMMath: FMVMEmittable {
     /// Bitwise AND
     case bitwiseAND
     
+    /// Boolean less-than comparison
+    /// This is the only ordering operator among the four (`<`, `<=`, `>`, `>=`) supported by FMVM. The four are mostly mirrors of each
+    /// other, and `x >= y` is equivalent to `not (x < y)`, which is just `1 - (x < y)` since booleans are (meant to be) closed over `{0 , 1}`.
+    /// _Note:_ It is important that the implementation of lowering from FMVM's less-than operator only returns `0` or `1` to satisfy this requirement.
+    case lessThan
+    
     // ...
     
     /// A human-readable description of the mathematical operation
@@ -35,6 +41,9 @@ public enum FMMath: FMVMEmittable {
             
         case .bitwiseAND:
             return "and"
+            
+        case .lessThan:
+            return "lessThan"
             
         // ...
             
