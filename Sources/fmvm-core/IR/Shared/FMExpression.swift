@@ -2,24 +2,48 @@
 /// An RValue expression.
 public indirect enum FMExpression: CustomStringConvertible {
     
-    /// A literal integer
-    case integer(value: Int)
+    /// An atomic ("simple") expression
+    case atomic(expression: FMAtomicExpression)
     
-    /// A local variable declared in the same function.
-    case local(variable: FMLocal)
+    /// The expression is a mathematical operation (with exactly two operands)
+    case math(operation: FMMath, arg1: FMAtomicExpression, arg2: FMAtomicExpression)
     
-    // ...
+    /// Load a value from main memory. This is equivalen to dereferencing a pointer.
+    case load(pointer: FMAtomicExpression)
     
+    /// Get a pointer to a member of a tuple type.
+    /// _Note:_ This only returns a _pointer_ to the member, not the value of the member itself.
+    /// Getting the member itself, e.g. `int y = point.y;`, is equivalent to loading (dereferencing) a pointer to the element, i.e. `int y = *(&(point.y));`.
+    /// This can be accomplished by creating an intermediate variable `declare t: ptr int16 = memberPtr point, y of <type(point)>`, and let the final
+    /// value be found by `declare y: int16 = load local t`.
+    case memberPtr(source: FMAtomicExpression, type: FMType.TupleType, member: String)
+    
+    /// Function calls are always expressions in FMVM IR.
+    /// Thus, a function call may only appear on the right-hand side of a local variable declaration.
+    /// However, this variable may be `void` (i.e. `tuple<[:]>`), in which case it's "deallocated" immediately.
+    /// Part of the call is passing an atomic expression as argument. For multi-parameter functions, this argument needs to be a local tuple variable.
+    case call(function: String, argument: FMAtomicExpression)
     
     /// A description of the expression.
     public var description: String {
         
         switch self {
             
-        case .integer(let value):
-            return value.description
-        case .local(let variable):
-            return variable.description
+        case .atomic(let expression):
+            return "atomic " + expression.description
+            
+        case .math(let operation, let arg1, let arg2):
+            return "math " + operation.description + " " + arg1.description + ", " + arg2.description
+        
+        case .load(let pointer):
+            return "load " + pointer.description
+            
+        case .memberPtr(let src, let typ, let mem):
+            return "memberPtr " + src.description + ", " + mem + " of " + typ.description
+            
+        case .call(let function, let argument):
+            return "call " + function + " arg " + argument.description
+            
         }
         
     }

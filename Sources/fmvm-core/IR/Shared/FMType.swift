@@ -3,6 +3,9 @@
 public indirect enum FMType: CustomStringConvertible, Equatable {
     
     
+    public typealias TupleType = [String : FMType]
+    
+    
     // MARK: Cases
     
     
@@ -14,7 +17,7 @@ public indirect enum FMType: CustomStringConvertible, Equatable {
     
     /// A tuple containing multiple types. The special case `[:]` is used to represent `void` values. Tuples are unordered since they're unordered. Thus,
     /// no references shall be made to a tuple's layout. These references should be made at a later compilation stage.
-    case tuple(types: [String : FMType])
+    case tuple(types: TupleType)
     
     /// A function type. The function takes one parameter of type `p` and returns a result of type `q`.
     case function(p: FMType, q: FMType)
