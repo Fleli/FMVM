@@ -10,7 +10,7 @@ public indirect enum FMType: FMVMEmittable, CustomStringConvertible, Equatable {
     // MARK: Cases
     
     
-    /// The atomic `int16` type, representing one machine word.
+    /// The atomic `int16` type, representing one machine-size word.
     case int16
     
     /// A pointer to a value of a type. The type being pointed to is said to be wrapped.
@@ -51,11 +51,11 @@ public indirect enum FMType: FMVMEmittable, CustomStringConvertible, Equatable {
         case .int16:
             return "int16"
         case .pointer(let wrapped):
-            return wrapped.emit() + "*"
+            return "ptr " + wrapped.emit()
         case .tuple(let types):
             return types.description
         case .function(let p, let q):
-            return p.emit() + "->" + q.emit()
+            return "func " + p.emit() + " -> " + q.emit()
         }
         
     }

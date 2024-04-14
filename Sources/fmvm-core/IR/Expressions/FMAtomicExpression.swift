@@ -23,7 +23,7 @@ public enum FMAtomicExpression: FMVMEmittable {
             return value.description
             
         case .local(let variable):
-            return variable.emit()
+            return variable.name
             
         }
     }

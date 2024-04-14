@@ -10,7 +10,7 @@ public enum FMJumpCondition: FMVMEmittable {
     case ifTrue(expression: FMAtomicExpression)
     
     // TODO: Need to somehow capture the carry flag, so jump on carry becomes an option.
-    // Investigate how this can be done later ... It does NOT exactly have top prioritu.
+    // Investigate how this can be done later ... It does NOT exactly have top priority.
     
     
     // MARK: Protocol Conformance

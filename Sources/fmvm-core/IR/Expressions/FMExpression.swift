@@ -28,6 +28,11 @@ public indirect enum FMExpression: FMVMEmittable {
     /// Part of the call is passing an atomic expression as argument. For multi-parameter functions, this argument needs to be a local tuple variable.
     case call(function: String, argument: FMAtomicExpression)
     
+    /// Phi nodes are inserted whenever the execution may end up in one of multiple possible paths, and we need to select one of several variables to assign to a local variable.
+    /// In FMVM IR, all phi nodes include exactly two "source" nodes.
+    /// Note that phi nodes only make sense on local variables.
+    case phi(optionA: FMLocal, optionB: FMLocal)
+    
     
     // MARK: Protocol Conformance
     
@@ -50,6 +55,9 @@ public indirect enum FMExpression: FMVMEmittable {
             
         case .call(let function, let argument):
             return "call " + function + " arg " + argument.emit()
+            
+        case .phi(let optionA, let optionB):
+            return "phi " + optionA.name + ", " + optionB.name
             
         }
         
