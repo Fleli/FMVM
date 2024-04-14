@@ -25,8 +25,8 @@ public indirect enum FMExpression: FMVMEmittable {
     /// Function calls are always expressions in FMVM IR.
     /// Thus, a function call may only appear on the right-hand side of a local variable declaration.
     /// However, this variable may be `void` (i.e. `tuple<[:]>`), in which case it's "deallocated" immediately.
-    /// Part of the call is passing an atomic expression as argument. For multi-parameter functions, this argument needs to be a local tuple variable.
-    case call(function: String, argument: FMAtomicExpression)
+    /// Part of the call is passing a local variable as argument. For multi-parameter functions, this local variable should be a tuple.
+    case call(function: String, argument: FMLocal)
     
     /// Phi nodes are inserted whenever the execution may end up in one of multiple possible paths, and we need to select one of several variables to assign to a local variable.
     /// In FMVM IR, all phi nodes include exactly two "source" nodes.
@@ -54,7 +54,7 @@ public indirect enum FMExpression: FMVMEmittable {
             return "memberPtr " + src.emit() + ", " + mem + " of " + typ.description
             
         case .call(let function, let argument):
-            return "call " + function + " arg " + argument.emit()
+            return "call " + function + " arg " + argument.name
             
         case .phi(let optionA, let optionB):
             return "phi " + optionA.name + ", " + optionB.name

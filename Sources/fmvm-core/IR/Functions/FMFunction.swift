@@ -15,6 +15,10 @@ public class FMFunction {
     /// The list of labels included in this function. A function is essentially just a collection of labels that work together on a achieving a goal, for example writing something to memory or returning a value.
     public var labels: Set<FMFunctionLabel>
     
+    /// The function's entry label.
+    /// When the function is called, the caller jumps to this label.
+    private let entryLabel: FMFunctionLabel
+    
     /// The function's attribute list. This includes attributes guaranteed (forced) by the user (compiler), and attributes inferred by the FMVM optimization engine.
     /// Attributes guaranteed (forced) by the compiler will be assumed to hold, even if they actually don't.
     public var attributes: Set<FMFunctionAttribute>
@@ -29,7 +33,9 @@ public class FMFunction {
         self.paramType = paramType
         self.returnType = returnType
         
-        self.labels = []
+        self.entryLabel = FMFunctionLabel(FMVMNames.entryLabel(name))
+        self.labels = [entryLabel]
+        
         self.attributes = []
         
     }
