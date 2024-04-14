@@ -1,7 +1,11 @@
 
 /// Represents a function in an FMVM program
 /// All functions are globally accessible and must have unique names.
-public class FMFunction {
+public class FMFunction: FMVMEmittable {
+    
+    
+    // MARK: Properties
+    
     
     /// The (unique) name of the function.
     public let name: String
@@ -23,6 +27,10 @@ public class FMFunction {
     /// Attributes guaranteed (forced) by the compiler will be assumed to hold, even if they actually don't.
     public var attributes: Set<FMFunctionAttribute>
     
+    
+    // MARK: Initializer
+    
+    
     /// Initialize a function with a name, parameter type and return type.
     /// The attribute list is initialized to be empty.
     /// The same goes for the statement list.
@@ -40,6 +48,18 @@ public class FMFunction {
         
     }
     
+    
+    // MARK: Protocol Conformance
+    
+    
+    public func emit() -> String {
+        return name + ": " + paramType.emit() + " -> " + returnType.emit()
+        + " attrs: " + attributes.description
+        + " entry @ " + entryLabel.name
+        + " {\n"
+        + labels.reduce("") { $0 + $1.emit() }
+        + "}"
+    }
     
     
 }

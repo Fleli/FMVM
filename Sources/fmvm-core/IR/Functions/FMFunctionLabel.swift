@@ -1,5 +1,5 @@
 
-public class FMFunctionLabel: Hashable, Equatable {
+public class FMFunctionLabel: FMVMEmittable, Hashable, Equatable {
     
     
     // MARK: Properties
@@ -43,6 +43,10 @@ public class FMFunctionLabel: Hashable, Equatable {
     
     public func hash(into hasher: inout Hasher) {
         hasher.combine(name)
+    }
+    
+    public func emit() -> String {
+        return "\t" +  name + ":\n" + statements.reduce("") { $0 + "\t\t" + $1.emit() + "\n" }
     }
     
     
